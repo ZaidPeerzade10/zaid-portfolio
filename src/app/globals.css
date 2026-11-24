@@ -84,13 +84,16 @@
 
 
 /* ── crowd (footer street) ───────────────────────── */
+.crowd { --crowd-h: 300px; }
+@media (min-width: 640px) { .crowd { --crowd-h: 420px; } }
+@media (min-width: 1024px) { .crowd { --crowd-h: 520px; } }
 .crowd .lane { will-change: transform; animation-timing-function: linear; animation-iteration-count: infinite; }
 .crowd .lane-left { animation-name: lane-left; }
 .crowd .lane-right { animation-name: lane-right; }
 @keyframes lane-left { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 @keyframes lane-right { from { transform: translateX(-50%); } to { transform: translateX(0); } }
 .crowd .walker { transform-box: fill-box; transform-origin: 50% 100%; animation: step .6s ease-in-out infinite; }
-@keyframes step { 0%, 100% { transform: translateY(0) rotate(-1.2deg); } 50% { transform: translateY(-5px) rotate(1.2deg); } }
+@keyframes step { 0%, 100% { transform: translateY(0) rotate(-1deg); } 50% { transform: translateY(-2.5%) rotate(1deg); } }
 .crowd .eyes { transform-box: fill-box; transform-origin: 50% 50%; animation: blink var(--blink, 5s) infinite; }
 @keyframes blink { 0%, 94%, 100% { transform: scaleY(1); } 96% { transform: scaleY(.1); } }
 .crowd .zaid-standing { filter: drop-shadow(2px 0 0 #000) drop-shadow(-2px 0 0 #000) drop-shadow(0 2px 0 #000) drop-shadow(0 -2px 0 #000); }
