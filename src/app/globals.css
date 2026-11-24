@@ -83,18 +83,18 @@
 }
 
 
-/* ── crowd ─────────────────────────────────────────── */
-.crowd .person { transform-box: fill-box; transform-origin: 50% 100%; animation: bob 3s ease-in-out infinite; cursor: default; }
-@media (hover: hover) { .crowd .person:hover { animation: hop .55s var(--ease-out) 1 !important; } }
-.crowd .look { transition: transform .35s cubic-bezier(.2,.7,.2,1); }
+/* ── crowd (footer street) ───────────────────────── */
+.crowd .lane { will-change: transform; animation-timing-function: linear; animation-iteration-count: infinite; }
+.crowd .lane-left { animation-name: lane-left; }
+.crowd .lane-right { animation-name: lane-right; }
+@keyframes lane-left { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@keyframes lane-right { from { transform: translateX(-50%); } to { transform: translateX(0); } }
+.crowd .walker { transform-box: fill-box; transform-origin: 50% 100%; animation: step .6s ease-in-out infinite; }
+@keyframes step { 0%, 100% { transform: translateY(0) rotate(-1.2deg); } 50% { transform: translateY(-5px) rotate(1.2deg); } }
 .crowd .eyes { transform-box: fill-box; transform-origin: 50% 50%; animation: blink var(--blink, 5s) infinite; }
-.crowd .wave-arm { transform-box: fill-box; transform-origin: 15% 95%; animation: wave 2.6s ease-in-out infinite; }
-.crowd .is-me:hover .wave-arm { animation-duration: .7s; }
-.crowd-name { font-family: var(--font-geist), system-ui, sans-serif; }
-@keyframes bob { 0%,100% { transform: translateY(0) rotate(0deg); } 30% { transform: translateY(-5px) rotate(-1.6deg); } 60% { transform: translateY(-1px) rotate(1.4deg); } }
-@keyframes hop { 0% { transform: translateY(0); } 40% { transform: translateY(-16px) rotate(-2deg); } 100% { transform: translateY(0); } }
 @keyframes blink { 0%, 94%, 100% { transform: scaleY(1); } 96% { transform: scaleY(.1); } }
-@keyframes wave { 0%, 60%, 100% { transform: rotate(0deg); } 70% { transform: rotate(-14deg); } 80% { transform: rotate(8deg); } 90% { transform: rotate(-10deg); } }
+.crowd .zaid-standing { filter: drop-shadow(2px 0 0 #000) drop-shadow(-2px 0 0 #000) drop-shadow(0 2px 0 #000) drop-shadow(0 -2px 0 #000); }
+.crowd-name { font-family: var(--font-geist), system-ui, sans-serif; }
 
 /* ── folders ───────────────────────────────────────── */
 .folder .sheet { transition: transform .55s var(--ease-out); }

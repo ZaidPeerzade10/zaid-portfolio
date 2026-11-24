@@ -1,132 +1,78 @@
-"use client";
+import { Person, makePerson, rng } from "./person";
 
-import { useEffect, useMemo, useRef } from "react";
-import { Person, makePerson, rng, type PersonSpec } from "./person";
+/*
+  The footer "street": lanes of illustrated people walk past in both directions
+  at different depths, while Zaid stands still in the middle. Pure CSS motion.
+*/
 
-type Placed = { p: PersonSpec; x: number; bottom: number; scale: number; row: number; delay: number; blink: number; dur: number };
+const VH = 460; // viewBox height shared by every lane
+const STRIP = 2600; // width of one strip; each lane renders it twice and loops
 
-const W = 1600;
-const H = 430;
+type Lane = { seed: number; scale: number; top: number; gap: [number, number]; dur: number; dir: 1 | -1 };
 
-function layout(): Placed[] {
-  const rows = [
-    { scale: 0.7, bottom: 300, gap: 60, offset: 4 },
-    { scale: 0.84, bottom: 372, gap: 72, offset: 34 },
-    { scale: 1, bottom: 452, gap: 90, offset: 0 },
-  ];
-  const out: Placed[] = [];
-  let seed = 3;
-  rows.forEach((r, ri) => {
-    const r2 = rng(ri * 101 + 7);
-    for (let x = r.offset - 30; x < W + 30; x += r.gap * (0.9 + r2() * 0.2)) {
-      out.push({
-        p: makePerson(seed++),
-        x,
-        bottom: r.bottom,
-        scale: r.scale * (0.95 + r2() * 0.1),
-        row: ri,
-        delay: r2() * 3,
-        blink: 3 + r2() * 5,
-        dur: 2.2 + r2() * 2,
-      });
-    }
-  });
-  return out;
+const BACK: Lane[] = [
+  { seed: 11, scale: 0.6, top: 118, gap: [-22, 26], dur: 120, dir: 1 },
+  { seed: 23, scale: 0.76, top: 168, gap: [-26, 34], dur: 90, dir: -1 },
+];
+const FRONT: Lane[] = [
+  { seed: 37, scale: 0.98, top: 238, gap: [-30, 50], dur: 64, dir: 1 },
+  { seed: 51, scale: 1.24, top: 318, gap: [-24, 80], dur: 48, dir: -1 },
+];
+
+function Strip({ lane }: { lane: Lane }) {
+  const r = rng(lane.seed);
+  const people: { x: number; seed: number; delay: number; step: number }[] = [];
+  let x = 10;
+  let seed = lane.seed * 100;
+  while (x < STRIP - 120 * lane.scale) {
+    people.push({ x, seed: seed++, delay: r() * 0.7, step: 0.55 + r() * 0.2 });
+    x += 120 * lane.scale + lane.gap[0] + r() * (lane.gap[1] - lane.gap[0]);
+  }
+  return (
+    <svg viewBox={`0 0 ${STRIP} ${VH}`} preserveAspectRatio="xMinYMax meet" className="h-full w-auto shrink-0" aria-hidden>
+      {people.map((p, i) => (
+        <g key={i} transform={`translate(${p.x.toFixed(1)} ${lane.top}) scale(${lane.scale})`}>
+          <g className="walker" style={{ animationDelay: `-${p.delay.toFixed(2)}s`, animationDuration: `${p.step.toFixed(2)}s`, ["--blink" as string]: `${(3 + (i % 5)).toFixed(1)}s` }}>
+            <Person p={{ ...makePerson(p.seed), tilt: 0 }} extend />
+          </g>
+        </g>
+      ))}
+    </svg>
+  );
 }
 
-
-function renderPerson(it: Placed, i: number) {
-  const tx = it.x;
-  const ty = it.bottom - 202 * it.scale;
-  const faceCx = tx + 60 * it.scale;
-  const faceCy = ty + 60 * it.scale;
+function LaneRow({ lane }: { lane: Lane }) {
   return (
-    <g key={`${it.row}-${i}`} transform={`translate(${tx.toFixed(1)} ${ty.toFixed(1)}) scale(${it.scale.toFixed(3)})`}>
-      <g
-        className="person"
-        style={{ animationDelay: `-${it.delay.toFixed(2)}s`, animationDuration: `${it.dur.toFixed(2)}s`, ["--blink" as string]: `${it.blink.toFixed(2)}s` }}
+    <div className="pointer-events-none absolute inset-y-0 left-0 overflow-visible">
+      <div
+        className={`lane flex h-full w-max ${lane.dir === 1 ? "lane-right" : "lane-left"}`}
+        style={{ animationDuration: `${lane.dur}s` }}
       >
-        <g data-face data-cx={faceCx.toFixed(1)} data-cy={faceCy.toFixed(1)} className="look">
-          <Person p={it.p} />
-        </g>
-      </g>
-    </g>
+        <Strip lane={lane} />
+        <Strip lane={lane} />
+      </div>
+    </div>
   );
 }
 
 export function Crowd({ name = "ZAID." }: { name?: string }) {
-  const people = useMemo(layout, []);
-  const svgRef = useRef<SVGSVGElement>(null);
-
-  // faces gently turn toward the pointer
-  useEffect(() => {
-    const svg = svgRef.current;
-    if (!svg || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const faces = Array.from(svg.querySelectorAll<SVGGElement>("[data-face]"));
-    let raf = 0;
-    let target: { x: number; y: number } | null = null;
-    const apply = () => {
-      raf = 0;
-      faces.forEach((f) => {
-        const cx = Number(f.dataset.cx);
-        const cy = Number(f.dataset.cy);
-        if (!target) {
-          f.style.transform = "";
-          return;
-        }
-        const dx = target.x - cx;
-        const dy = target.y - cy;
-        const d = Math.hypot(dx, dy) || 1;
-        const k = Math.min(1, 260 / d);
-        f.style.transform = `translate(${((dx / d) * 3.2 * k).toFixed(2)}px, ${((dy / d) * 2.4 * k).toFixed(2)}px)`;
-      });
-    };
-    const onMove = (e: PointerEvent) => {
-      const pt = svg.createSVGPoint();
-      pt.x = e.clientX;
-      pt.y = e.clientY;
-      const m = svg.getScreenCTM();
-      if (!m) return;
-      const p = pt.matrixTransform(m.inverse());
-      target = { x: p.x, y: p.y };
-      if (!raf) raf = requestAnimationFrame(apply);
-    };
-    const onLeave = () => {
-      target = null;
-      if (!raf) raf = requestAnimationFrame(apply);
-    };
-    window.addEventListener("pointermove", onMove, { passive: true });
-    document.documentElement.addEventListener("pointerleave", onLeave);
-    return () => {
-      window.removeEventListener("pointermove", onMove);
-      document.documentElement.removeEventListener("pointerleave", onLeave);
-      if (raf) cancelAnimationFrame(raf);
-    };
-  }, []);
-
   return (
-    <div className="crowd relative overflow-hidden bg-white">
-      <svg ref={svgRef} viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="xMidYMax slice" className="block h-[260px] w-full sm:h-[360px] lg:h-[440px]" role="img" aria-label="Zaid standing in the middle of an illustrated crowd">
-        <text x={W / 2} y={232} textAnchor="middle" className="crowd-name" fontSize={300} fontWeight={800} fill="#EDEDEB" letterSpacing={-12}>
-          {name}
-        </text>
-        <defs>
-          <filter id="ink-outline" x="-5%" y="-5%" width="110%" height="110%">
-            <feMorphology in="SourceAlpha" operator="dilate" radius="3" result="grow" />
-            <feFlood floodColor="#000" />
-            <feComposite in2="grow" operator="in" result="outline" />
-            <feMerge>
-              <feMergeNode in="outline" />
-              <feMergeNode in="SourceGraphic" />
-            </feMerge>
-          </filter>
-        </defs>
-        {people.filter((it) => it.row === 0).map(renderPerson)}
-        <g className="standing">
-          <image href="/zaid-standing.webp" x={W / 2 - 194} y={40} width={388} height={482} preserveAspectRatio="xMidYMin meet" filter="url(#ink-outline)" />
-        </g>
-        {people.filter((it) => it.row > 0 && !(it.row === 1 && Math.abs(it.x + 60 * it.scale - W / 2) < 120)).map(renderPerson)}
-      </svg>
+    <div className="crowd relative h-[300px] overflow-hidden bg-white sm:h-[400px] lg:h-[480px]" role="img" aria-label="Zaid standing still while a crowd of illustrated people walks past">
+      <p aria-hidden className="crowd-name pointer-events-none absolute inset-x-0 top-[2%] select-none text-center text-[clamp(7rem,26vw,24rem)] font-extrabold leading-none tracking-[-0.06em] text-[#EDEDEB]">
+        {name}
+      </p>
+      {BACK.map((l) => (
+        <LaneRow key={l.seed} lane={l} />
+      ))}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src="/zaid-standing.webp"
+        alt=""
+        className="zaid-standing pointer-events-none absolute bottom-[-4%] left-1/2 h-[100%] w-auto -translate-x-1/2"
+      />
+      {FRONT.map((l) => (
+        <LaneRow key={l.seed} lane={l} />
+      ))}
     </div>
   );
 }

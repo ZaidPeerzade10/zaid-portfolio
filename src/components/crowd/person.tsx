@@ -70,7 +70,7 @@ const INK = "#000000";
 const PAPER = "#FFFFFF";
 
 /** One person, drawn in a 120 x 200 box with the chin around y = 88. */
-export function Person({ p }: { p: PersonSpec }) {
+export function Person({ p, extend = false }: { p: PersonSpec; extend?: boolean }) {
   const cx = 60;
   const cy = 60;
   const { headRx: rx, headRy: ry } = p;
@@ -94,7 +94,18 @@ export function Person({ p }: { p: PersonSpec }) {
 
       {/* body */}
       <g className="torso">
-        <path d={body} fill={shirtFill} {...S} />
+        {extend && <path d={`M ${cx - sw} 198 L ${cx - sw} 640 M ${cx + sw} 198 L ${cx + sw} 640`} stroke={INK} strokeWidth={2.4} />}
+        {extend && <rect x={cx - sw + 1.2} y={196} width={sw * 2 - 2.4} height={444} fill={shirtFill} />}
+        <path d={extend ? body.replace(" Z", "") : body} fill={shirtFill} {...S} />
+        {extend && (
+          <path
+            d={`M ${cx - sw * 0.7} 150 C ${cx - sw * 0.62} 190, ${cx - sw * 0.6} 240, ${cx - sw * 0.62} 300 M ${cx + sw * 0.7} 150 C ${cx + sw * 0.62} 190, ${cx + sw * 0.6} 240, ${cx + sw * 0.62} 300`}
+            fill="none"
+            stroke={detail}
+            strokeWidth={2}
+            strokeLinecap="round"
+          />
+        )}
         {p.shirt === "collar" && (
           <path d={`M ${cx - 14} 112 L ${cx} 128 L ${cx + 14} 112 M ${cx} 128 L ${cx} 202`} fill="none" {...S} />
         )}
