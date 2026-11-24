@@ -1,29 +1,43 @@
-import type { Metadata } from 'next';
-import './globals.css';
-import { Toaster } from '@/components/ui/toaster';
+import type { Metadata } from "next";
+import localFont from "next/font/local";
+import "./globals.css";
+
+const geist = localFont({
+  src: "./fonts/Geist-Variable.woff2",
+  variable: "--font-geist",
+  weight: "100 900",
+  display: "swap",
+});
+const geistMono = localFont({
+  src: "./fonts/GeistMono-Variable.woff2",
+  variable: "--font-geist-mono",
+  weight: "100 900",
+  display: "swap",
+});
+const serif = localFont({
+  src: [
+    { path: "./fonts/InstrumentSerif-Regular.woff2", style: "normal", weight: "400" },
+    { path: "./fonts/InstrumentSerif-Italic.woff2", style: "italic", weight: "400" },
+  ],
+  variable: "--font-serif",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
-  title: "Zaid Peerzade | AI Engineer & Software Developer",
-  description: "Portfolio of Zaid Peerzade, an AI Engineer, Software Engineer, Data Scientist, and Full Stack Developer based in Pune, India.",
+  title: "Zaid Peerzade — AI Engineer",
+  description:
+    "Zaid Peerzade is an AI engineer in Pune who builds agents, RAG systems and automation that do real work.",
+  openGraph: {
+    title: "Zaid Peerzade — AI Engineer",
+    description: "I build agents that do the actual work.",
+    type: "website",
+  },
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className="dark">
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet" />
-        <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet" />
-      </head>
-      <body className="font-body antialiased" suppressHydrationWarning>
-        {children}
-        <Toaster />
-      </body>
+    <html lang="en" className={`dark ${geist.variable} ${geistMono.variable} ${serif.variable}`}>
+      <body suppressHydrationWarning>{children}</body>
     </html>
   );
 }

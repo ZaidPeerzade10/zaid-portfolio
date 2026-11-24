@@ -2,7 +2,7 @@
 
 import * as z from "zod";
 import { Resend } from "resend";
-import { personalData } from "@/lib/data.tsx";
+import { personalData } from "@/lib/data";
 import ContactEmail from "@/emails/contact-email";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
