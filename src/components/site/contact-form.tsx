@@ -2,7 +2,7 @@
 
 import { useActionState, useEffect, useRef } from "react";
 import { useFormStatus } from "react-dom";
-import { ArrowUpRight, Loader2 } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import { sendEmail, type ContactFormState } from "@/app/actions";
 
 function Submit() {
@@ -11,11 +11,10 @@ function Submit() {
     <button
       type="submit"
       disabled={pending}
-      className="group inline-flex items-center gap-2 rounded-full bg-signal px-6 py-3 text-sm font-medium text-ink transition hover:bg-bone disabled:opacity-60"
+      className="group inline-flex items-center gap-2 rounded-full bg-signal px-6 py-3 text-sm font-medium text-ink transition hover:bg-mist active:scale-[0.97] disabled:opacity-60"
     >
       {pending ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
       {pending ? "Sending" : "Send message"}
-      {!pending && <ArrowUpRight className="h-4 w-4 transition group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />}
     </button>
   );
 }
@@ -35,16 +34,16 @@ export function ContactForm() {
     <form ref={formRef} action={action} className="space-y-6">
       <div className="grid gap-6 sm:grid-cols-2">
         <label className="block">
-          <span className="font-mono text-xs uppercase tracking-[0.14em] text-muted-foreground">Name</span>
+          <span className="text-sm text-mist">Name</span>
           <input name="name" required minLength={2} placeholder="Your name" className={field} />
         </label>
         <label className="block">
-          <span className="font-mono text-xs uppercase tracking-[0.14em] text-muted-foreground">Email</span>
+          <span className="text-sm text-mist">Email</span>
           <input name="email" type="email" required placeholder="you@company.com" className={field} />
         </label>
       </div>
       <label className="block">
-        <span className="font-mono text-xs uppercase tracking-[0.14em] text-muted-foreground">Message</span>
+        <span className="text-sm text-mist">Message</span>
         <textarea
           name="message"
           required
@@ -57,8 +56,8 @@ export function ContactForm() {
       <div className="flex flex-wrap items-center gap-4">
         <Submit />
         {state.message && (
-          <p role="status" className={`font-mono text-xs ${state.success ? "text-signal" : "text-red-400"}`}>
-            {state.success ? "› sent. I'll reply soon." : `› ${state.message}`}
+          <p role="status" className={`text-sm ${state.success ? "text-bone" : "text-red-400"}`}>
+            {state.success ? "Message sent. I'll reply by email." : state.message}
           </p>
         )}
       </div>

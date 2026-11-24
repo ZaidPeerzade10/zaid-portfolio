@@ -14,29 +14,21 @@ const geistMono = localFont({
   weight: "100 900",
   display: "swap",
 });
-const serif = localFont({
-  src: [
-    { path: "./fonts/InstrumentSerif-Regular.woff2", style: "normal", weight: "400" },
-    { path: "./fonts/InstrumentSerif-Italic.woff2", style: "italic", weight: "400" },
-  ],
-  variable: "--font-serif",
-  display: "swap",
-});
-
 export const metadata: Metadata = {
   title: "Zaid Peerzade — Lead AI Engineer",
   description:
     "Zaid Peerzade is a lead AI engineer in Pune who builds agents, RAG systems and automation that do real work.",
   openGraph: {
     title: "Zaid Peerzade — Lead AI Engineer",
-    description: "I build agents that do the actual work.",
+    description: "Lead AI Engineer in Pune building RAG pipelines and AI agents.",
+    images: ["/zaid.webp"],
     type: "website",
   },
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`dark ${geist.variable} ${geistMono.variable} ${serif.variable}`}>
+    <html lang="en" className={`dark ${geist.variable} ${geistMono.variable}`}>
       <body suppressHydrationWarning>{children}</body>
     </html>
   );

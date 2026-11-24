@@ -10,6 +10,15 @@ export const personalData = {
   resumeUrl: "/resume.pdf",
 };
 
+export const chatFacts = `Zaid Peerzade is a Lead AI Engineer at Maxnet Technologies in Pune, India (he joined in June 2025 as a Junior AI Engineer and now leads AI work there).
+He graduated with a B.E. in Computer Engineering from Savitribai Phule Pune University (2023-2026) with a CGPA of 8.02, and before that earned a Diploma in Computer Engineering from MSBTE, Pune (2020-2023).
+At Maxnet he leads the design and delivery of AI chatbots and automation agents with Python and LangChain, integrates LLMs into existing web systems, tunes prompts for cost and accuracy, and tests and debugs production AI pipelines for business-process automation.
+Earlier: Software Engineering Virtual Intern at JPMorgan Chase & Co. (Nov-Dec 2022, fixed data feeds in a TypeScript financial dashboard) and Software Developer Intern at L.D. Infotech (Jul-Aug 2022, data analysis with Pandas and NumPy, dashboards).
+Projects: AiBase, a multi-agent database chatbot that reads a schema, turns plain-English questions into SQL, runs them and explains results (Python, LangChain, SQL, LLMs). Bot Queue, a queue-based bot execution system for UiPath with pause/resume, an AI chatbot controller and a dashboard. Doc Agent, PDF search and summarisation with embeddings, a vector DB and RAG. micrograd-from-scratch, a scalar autograd engine and tiny neural-net library in pure Python (github.com/ZaidPeerzade10/micrograd-from-scratch). AI Daily Lab, which generates a daily data-science task with Gemini, tracks streaks and writes monthly reports on GitHub Actions (github.com/ZaidPeerzade10/ai-daily-lab).
+Skills: Python, TypeScript, JavaScript, SQL, FastAPI, Flask, React, REST APIs, LangChain, OpenAI API, AutoGen, RAG, vector databases, prompt engineering, LLM optimisation, Pandas, NumPy, scikit-learn, SQL Server, Firebase, UiPath, Git, GitHub Actions.
+Certifications: Google IT Automation with Python (Coursera) and related Coursera courses, Python Programming (Udemy).
+Contact: eng.zpeerzade@gmail.com, LinkedIn linkedin.com/in/zaid-peerzade-945829262, GitHub github.com/ZaidPeerzade10. Resume at /resume.pdf on this site.`;
+
 export const about = {
   statement:
     "I build AI systems that take real work off people's plates: agents that read databases, bots that run business processes, and search tools that actually find the answer.",
@@ -30,6 +39,7 @@ export type Project = {
   stack: string[];
   kind: string;
   href?: string;
+  mock: "sql" | "queue" | "doc" | "grad" | "daily";
 };
 
 export const projects: Project[] = [
@@ -40,6 +50,7 @@ export const projects: Project[] = [
       "Spins up a team of agents that read a database schema, turn plain-English questions into SQL, run them and explain the result in a sentence.",
     stack: ["Python", "LangChain", "SQL", "LLMs"],
     kind: "Agents",
+    mock: "sql",
   },
   {
     title: "Bot Queue",
@@ -48,6 +59,7 @@ export const projects: Project[] = [
       "Runs business automation bots one after another with pause and resume, an AI chatbot to control the queue, and a dashboard that shows what ran.",
     stack: ["Python", "UiPath", "LangChain", "Dashboards"],
     kind: "Automation",
+    mock: "queue",
   },
   {
     title: "Doc Agent",
@@ -56,6 +68,7 @@ export const projects: Project[] = [
       "Reads PDFs, indexes them with embeddings and answers questions with retrieval-augmented generation, citing the passages it used.",
     stack: ["Python", "LangChain", "Embeddings", "Vector DB"],
     kind: "RAG",
+    mock: "doc",
   },
   {
     title: "micrograd-from-scratch",
@@ -65,6 +78,7 @@ export const projects: Project[] = [
     stack: ["Python", "Autograd", "Neural nets"],
     kind: "Open source",
     href: "https://github.com/ZaidPeerzade10/micrograd-from-scratch",
+    mock: "grad",
   },
   {
     title: "AI Daily Lab",
@@ -74,6 +88,7 @@ export const projects: Project[] = [
     stack: ["Python", "Gemini API", "GitHub Actions"],
     kind: "Open source",
     href: "https://github.com/ZaidPeerzade10/ai-daily-lab",
+    mock: "daily",
   },
 ];
 
@@ -111,15 +126,18 @@ export const experiences = [
 
 export const stack = [
   {
-    group: "AI & agents",
+    group: "AI and machine learning",
+    blurb: "Agents, retrieval and the models behind them.",
     items: ["LangChain", "OpenAI API", "AutoGen", "RAG", "Vector databases", "Prompt engineering", "LLM optimisation"],
   },
   {
-    group: "Engineering",
+    group: "Languages and frameworks",
+    blurb: "What the products are actually built with.",
     items: ["Python", "TypeScript", "JavaScript", "SQL", "FastAPI", "Flask", "React", "REST APIs"],
   },
   {
-    group: "Data & ops",
+    group: "Data, tools and cloud",
+    blurb: "Where the data lives and how the work ships.",
     items: ["Pandas", "NumPy", "scikit-learn", "SQL Server", "Firebase", "UiPath", "Git & GitHub", "GitHub Actions"],
   },
 ];
@@ -141,8 +159,8 @@ export const certifications = [
 ];
 
 export const navLinks = [
-  { href: "#work", label: "Work" },
+  { href: "#stack", label: "Tech stack" },
+  { href: "#work", label: "Projects" },
   { href: "#experience", label: "Experience" },
-  { href: "#stack", label: "Stack" },
   { href: "#contact", label: "Contact" },
 ];

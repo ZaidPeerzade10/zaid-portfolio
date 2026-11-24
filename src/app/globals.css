@@ -4,25 +4,27 @@
 
 @layer base {
   :root {
-    --background: 60 7% 5%;      /* ink   #0E0E0C */
-    --foreground: 41 33% 89%;    /* bone  #EDE7DA */
+    --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+    --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+    --background: 0 0% 0%;
+    --foreground: 0 0% 100%;
     --card: 60 8% 8%;            /* panel #151512 */
     --card-foreground: 41 33% 89%;
     --popover: 60 8% 8%;
     --popover-foreground: 41 33% 89%;
-    --primary: 16 100% 56%;      /* signal #FF5B1F */
+    --primary: 0 0% 100%;
     --primary-foreground: 60 7% 5%;
     --secondary: 60 8% 8%;
     --secondary-foreground: 41 33% 89%;
     --muted: 60 8% 8%;
-    --muted-foreground: 43 7% 52%;
-    --accent: 16 100% 56%;
+    --muted-foreground: 60 2% 54%;
+    --accent: 0 0% 100%;
     --accent-foreground: 60 7% 5%;
     --destructive: 0 70% 50%;
     --destructive-foreground: 41 33% 89%;
-    --border: 48 6% 15%;         /* line  #2A2925 */
+    --border: 0 0% 15%;
     --input: 48 6% 15%;
-    --ring: 16 100% 56%;
+    --ring: 0 0% 100%;
     --radius: 0.75rem;
     --chart-1: 16 100% 56%;
     --chart-2: 41 33% 89%;
@@ -44,8 +46,8 @@
     @apply bg-background text-foreground font-sans antialiased;
   }
   ::selection {
-    background: #ff5b1f;
-    color: #0e0e0c;
+    background: #f2f2f0;
+    color: #0a0a0a;
   }
 }
 
@@ -57,14 +59,14 @@
   .reveal {
     opacity: 0;
     transform: translateY(18px);
-    transition: opacity 0.8s cubic-bezier(0.2, 0.7, 0.2, 1), transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1);
+    transition: opacity 0.8s var(--ease-out), transform 0.8s var(--ease-out);
   }
   .reveal.is-in {
     opacity: 1;
     transform: none;
   }
   .rise {
-    animation: rise 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+    animation: rise 0.9s var(--ease-out) both;
   }
   .wipe {
     transform-origin: left;
@@ -79,6 +81,52 @@
     to { transform: scaleX(1); }
   }
 }
+
+
+/* ── crowd ─────────────────────────────────────────── */
+.crowd .person { transform-box: fill-box; transform-origin: 50% 100%; animation: sway 6s ease-in-out infinite; cursor: default; }
+@media (hover: hover) { .crowd .person:hover { animation: hop .55s cubic-bezier(.3,.7,.3,1.4) 1, sway 6s ease-in-out infinite .55s; } }
+.crowd .look { transition: transform .35s cubic-bezier(.2,.7,.2,1); }
+.crowd .eyes { transform-box: fill-box; transform-origin: 50% 50%; animation: blink var(--blink, 5s) infinite; }
+.crowd .wave-arm { transform-box: fill-box; transform-origin: 15% 95%; animation: wave 2.6s ease-in-out infinite; }
+.crowd .is-me:hover .wave-arm { animation-duration: .7s; }
+.crowd .me-tag { transform-box: fill-box; transform-origin: 50% 100%; animation: bob 2.6s ease-in-out infinite; }
+.crowd-name { font-family: var(--font-geist), system-ui, sans-serif; }
+@keyframes sway { 0%,100% { transform: rotate(0deg); } 50% { transform: rotate(1.4deg) translateY(-1px); } }
+@keyframes hop { 0% { transform: translateY(0); } 40% { transform: translateY(-16px) rotate(-2deg); } 100% { transform: translateY(0); } }
+@keyframes blink { 0%, 94%, 100% { transform: scaleY(1); } 96% { transform: scaleY(.1); } }
+@keyframes wave { 0%, 60%, 100% { transform: rotate(0deg); } 70% { transform: rotate(-14deg); } 80% { transform: rotate(8deg); } 90% { transform: rotate(-10deg); } }
+@keyframes bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
+
+/* ── folders ───────────────────────────────────────── */
+.folder .sheet { transition: transform .55s var(--ease-out); }
+.folder:is(:hover,:focus-visible,.is-open) .sheet-1 { transform: translate(-22%, -46%) rotate(-9deg); }
+.folder:is(:hover,:focus-visible,.is-open) .sheet-2 { transform: translate(0, -58%) rotate(1deg); }
+.folder:is(:hover,:focus-visible,.is-open) .sheet-3 { transform: translate(22%, -44%) rotate(9deg); }
+.folder .flap { transform-origin: 50% 100%; transition: transform .55s var(--ease-out); }
+.folder:is(:hover,:focus-visible,.is-open) .flap { transform: perspective(900px) rotateX(-12deg); }
+
+/* ── intro ─────────────────────────────────────────── */
+.intro-word { animation: word-up .8s var(--ease-out) both; }
+.intro-photo { animation: photo-in 1s var(--ease-out) .55s both; }
+.intro-meta { animation: fade-in .6s ease .9s both; }
+@keyframes word-up { from { transform: translateY(105%); } to { transform: none; } }
+@keyframes photo-in { from { opacity: 0; clip-path: inset(50% 0 50% 0); } to { opacity: 1; clip-path: inset(0 0 0 0); } }
+@keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+
+@media (hover: none) {
+  .folder .sheet-1 { transform: translate(-18%, -36%) rotate(-8deg); }
+  .folder .sheet-2 { transform: translate(0, -46%) rotate(1deg); }
+  .folder .sheet-3 { transform: translate(18%, -34%) rotate(8deg); }
+}
+/* ── chat + modal ──────────────────────────────────── */
+.chat-panel { opacity: 0; transform: translateY(12px) scale(.97); transform-origin: bottom right; pointer-events: none; visibility: hidden; transition: opacity .2s var(--ease-out), transform .25s var(--ease-out), visibility 0s linear .25s; }
+.chat-panel.is-open { opacity: 1; transform: none; pointer-events: auto; visibility: visible; transition: opacity .2s var(--ease-out), transform .25s var(--ease-out), visibility 0s; }
+.typing-dot { animation: typing 1s ease-in-out infinite; }
+@keyframes typing { 0%, 100% { opacity: .25; transform: translateY(0); } 50% { opacity: 1; transform: translateY(-2px); } }
+.modal-backdrop { animation: fade-in .2s var(--ease-out) both; }
+.modal-panel { animation: panel-in .3s var(--ease-out) both; }
+@keyframes panel-in { from { opacity: 0; transform: translateY(16px) scale(.97); } to { opacity: 1; transform: none; } }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
