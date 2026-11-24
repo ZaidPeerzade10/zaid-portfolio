@@ -24,11 +24,11 @@ const serif = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Zaid Peerzade — AI Engineer",
+  title: "Zaid Peerzade — Lead AI Engineer",
   description:
-    "Zaid Peerzade is an AI engineer in Pune who builds agents, RAG systems and automation that do real work.",
+    "Zaid Peerzade is a lead AI engineer in Pune who builds agents, RAG systems and automation that do real work.",
   openGraph: {
-    title: "Zaid Peerzade — AI Engineer",
+    title: "Zaid Peerzade — Lead AI Engineer",
     description: "I build agents that do the actual work.",
     type: "website",
   },

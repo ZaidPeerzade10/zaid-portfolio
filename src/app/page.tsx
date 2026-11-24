@@ -62,7 +62,7 @@ export default function Home() {
         <section className="mx-auto grid max-w-[1200px] items-center gap-14 px-6 pb-20 pt-16 md:pt-24 lg:grid-cols-[1.15fr_.85fr]">
           <div>
             <p className="rise font-mono text-xs uppercase tracking-[0.18em] text-signal" style={{ animationDelay: "50ms" }}>
-              AI Engineer — Pune, India
+              Lead AI Engineer — Pune, India
             </p>
             <h1 className="mt-6 text-[clamp(3.6rem,10vw,8.5rem)] font-semibold leading-[0.88] tracking-[-0.045em] text-bone">
               {name.map((word, w) => (

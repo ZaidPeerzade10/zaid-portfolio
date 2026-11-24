@@ -8,7 +8,7 @@ const COMMAND = 'agent run "introduce zaid"';
 const ROWS: Row[] = [
   { sym: "›", key: "plan", val: "4 steps" },
   { sym: "›", key: "tool", val: "read(experience)", ok: true },
-  { sym: "›", key: "role", val: "Junior AI Engineer @ Maxnet" },
+  { sym: "›", key: "role", val: "Lead AI Engineer @ Maxnet" },
   { sym: "›", key: "tool", val: "read(stack)", ok: true },
   { sym: "›", key: "ships", val: "chatbots, RAG, agents" },
   { sym: "›", key: "study", val: "B.E. Computer, SPPU '26" },

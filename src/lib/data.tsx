@@ -1,6 +1,6 @@
 export const personalData = {
   name: "Zaid Peerzade",
-  role: "AI Engineer",
+  role: "Lead AI Engineer",
   location: "Pune, India",
   email: "eng.zpeerzade@gmail.com",
   social: {
@@ -14,9 +14,9 @@ export const about = {
   statement:
     "I build AI systems that take real work off people's plates: agents that read databases, bots that run business processes, and search tools that actually find the answer.",
   body:
-    "I'm a Junior AI Engineer at Maxnet Technologies and a final-year Computer Engineering student at SPPU, Pune. Most of my days are spent wiring LLMs into existing systems with Python and LangChain, then testing them until they hold up in production.",
+    "I'm a Lead AI Engineer at Maxnet Technologies and a final-year Computer Engineering student at SPPU, Pune. Most of my days are spent wiring LLMs into existing systems with Python and LangChain, then testing them until they hold up in production.",
   facts: [
-    { label: "Now", value: "Junior AI Engineer, Maxnet" },
+    { label: "Now", value: "Lead AI Engineer, Maxnet" },
     { label: "Studying", value: "B.E. Computer Engineering, SPPU (2026)" },
     { label: "Based", value: "Pune, India" },
     { label: "Focus", value: "Agents, RAG, automation" },
@@ -79,12 +79,12 @@ export const projects: Project[] = [
 
 export const experiences = [
   {
-    role: "Junior AI Engineer",
+    role: "Lead AI Engineer",
     company: "Maxnet Technologies",
     period: "Jun 2025 — now",
     current: true,
     points: [
-      "Design and ship AI chatbots and automation agents with Python and LangChain.",
+      "Lead the design and delivery of AI chatbots and automation agents with Python and LangChain.",
       "Integrate LLMs into existing web systems and tune prompts for cost and accuracy.",
       "Test and debug production AI pipelines for large business-process automation.",
     ],
