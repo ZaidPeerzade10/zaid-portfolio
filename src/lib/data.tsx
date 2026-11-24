@@ -17,7 +17,7 @@ export const about = {
     "I'm a Junior AI Engineer at Maxnet Technologies and a final-year Computer Engineering student at SPPU, Pune. Most of my days are spent wiring LLMs into existing systems with Python and LangChain, then testing them until they hold up in production.",
   facts: [
     { label: "Now", value: "Junior AI Engineer, Maxnet" },
-    { label: "Studying", value: "B.E. Computer Engineering, SPPU '26" },
+    { label: "Studying", value: "B.E. Computer Engineering, SPPU (2026)" },
     { label: "Based", value: "Pune, India" },
     { label: "Focus", value: "Agents, RAG, automation" },
   ],
@@ -124,19 +124,20 @@ export const stack = [
   },
 ];
 
-export const education = {
-  school: "Savitribai Phule Pune University",
-  degree: "B.E. Computer Engineering",
-  year: "2026",
-};
+export const education = [
+  { school: "Savitribai Phule Pune University (SPPU)", degree: "B.E. Computer Engineering", years: "2023 — 2026" },
+  { school: "MSBTE, Pune", degree: "Diploma in Computer Engineering", years: "2020 — 2023" },
+];
 
 export const certifications = [
-  "Google IT Automation with Python (Coursera)",
-  "Configuration Management and the Cloud",
-  "Automating Real-World Tasks with Python",
-  "Troubleshooting and Debugging",
-  "Introduction to Git and GitHub",
-  "Python Programming (Udemy)",
+  { name: "Google IT Automation with Python", provider: "Coursera", link: "https://coursera.org/share/98b974192cf052983a4dd903b9aba227" },
+  { name: "Crash Course on Python", provider: "Coursera", link: "https://coursera.org/share/98b974192cf052983a4dd903b9aba227" },
+  { name: "Using Python to Interact with the OS", provider: "Coursera", link: "https://coursera.org/share/ec5cfccf09d9a667c1e3ec6033289320" },
+  { name: "Automating Real World Tasks with Python", provider: "Coursera", link: "https://coursera.org/share/b757a5201d50531c4f423979c20492a2" },
+  { name: "Configuration Management and the Cloud", provider: "Coursera", link: "https://coursera.org/share/7fc8e2141e6b92d5c092e4f725870c37" },
+  { name: "Troubleshooting and Debugging Techniques", provider: "Coursera", link: "https://coursera.org/share/2c3b6603864f5e9323e4a8fe21a8e0a6" },
+  { name: "Introduction to Git and GitHub", provider: "Coursera", link: "https://coursera.org/share/29c5141c3649d01a6613e820537b1de5" },
+  { name: "Python Programming", provider: "Udemy", link: "https://www.udemy.com/certificate/UC-4a10cc3e-de34-47fa-b214-7ab833693cb0/" },
 ];
 
 export const navLinks = [

@@ -242,18 +242,25 @@ export default function Home() {
           <Reveal className="mt-4 grid gap-4 md:grid-cols-[1fr_2fr]">
             <div className="rounded-2xl border border-line p-6 md:p-8">
               <p className="font-mono text-xs uppercase tracking-[0.14em] text-dim">Education</p>
-              <p className="mt-4 text-xl font-semibold text-bone">{education.degree}</p>
-              <p className="mt-1 text-muted-foreground">
-                {education.school} · {education.year}
-              </p>
+              <ul className="mt-4 space-y-5">
+                {education.map((e) => (
+                  <li key={e.degree}>
+                    <p className="text-lg font-semibold text-bone">{e.degree}</p>
+                    <p className="mt-1 text-sm text-muted-foreground">{e.school}</p>
+                    <p className="mt-1 font-mono text-xs text-dim">{e.years}</p>
+                  </li>
+                ))}
+              </ul>
             </div>
             <div className="rounded-2xl border border-line p-6 md:p-8">
               <p className="font-mono text-xs uppercase tracking-[0.14em] text-dim">Certifications</p>
               <ul className="mt-4 grid gap-x-8 gap-y-2 sm:grid-cols-2">
                 {certifications.map((c) => (
-                  <li key={c} className="text-sm text-muted-foreground">
-                    <span className="mr-2 font-mono text-signal">›</span>
-                    {c}
+                  <li key={c.name} className="text-sm">
+                    <a href={c.link} target="_blank" rel="noopener noreferrer" className="group text-muted-foreground transition-colors hover:text-bone">
+                      <span className="mr-2 font-mono text-signal">›</span>
+                      {c.name} <span className="font-mono text-xs text-dim group-hover:text-signal">{c.provider} ↗</span>
+                    </a>
                   </li>
                 ))}
               </ul>
