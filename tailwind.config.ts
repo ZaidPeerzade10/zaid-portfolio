@@ -17,11 +17,20 @@ export default {
     },
     extend: {
       fontFamily: {
-        body: ['Inter', 'sans-serif'],
-        headline: ['Space Grotesk', 'sans-serif'],
-        code: ['monospace'],
+        sans: ['var(--font-geist)', 'system-ui', 'sans-serif'],
+        body: ['var(--font-geist)', 'system-ui', 'sans-serif'],
+        headline: ['var(--font-geist)', 'system-ui', 'sans-serif'],
+        mono: ['var(--font-geist-mono)', 'ui-monospace', 'monospace'],
+        code: ['var(--font-geist-mono)', 'ui-monospace', 'monospace'],
+        serif: ['var(--font-serif)', 'Georgia', 'serif'],
       },
       colors: {
+        ink: '#0E0E0C',
+        panel: '#151512',
+        line: '#2A2925',
+        bone: '#EDE7DA',
+        dim: '#5A574F',
+        signal: '#FF5B1F',
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
         card: {
@@ -69,6 +78,9 @@ export default {
         sm: 'calc(var(--radius) - 4px)',
       },
       keyframes: {
+        marquee: { from: { transform: 'translateX(0)' }, to: { transform: 'translateX(-50%)' } },
+        blink: { '0%,50%': { opacity: '1' }, '50.01%,100%': { opacity: '0' } },
+        ping2: { '0%': { transform: 'scale(1)', opacity: '.8' }, '100%': { transform: 'scale(3)', opacity: '0' } },
         'accordion-down': {
           from: {
             height: '0',
@@ -87,6 +99,9 @@ export default {
         },
       },
       animation: {
+        marquee: 'marquee 40s linear infinite',
+        blink: 'blink 1.1s step-end infinite',
+        ping2: 'ping2 2s ease-out infinite',
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
       },
