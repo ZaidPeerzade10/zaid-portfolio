@@ -84,19 +84,17 @@
 
 
 /* ── crowd ─────────────────────────────────────────── */
-.crowd .person { transform-box: fill-box; transform-origin: 50% 100%; animation: sway 6s ease-in-out infinite; cursor: default; }
-@media (hover: hover) { .crowd .person:hover { animation: hop .55s cubic-bezier(.3,.7,.3,1.4) 1, sway 6s ease-in-out infinite .55s; } }
+.crowd .person { transform-box: fill-box; transform-origin: 50% 100%; animation: bob 3s ease-in-out infinite; cursor: default; }
+@media (hover: hover) { .crowd .person:hover { animation: hop .55s var(--ease-out) 1 !important; } }
 .crowd .look { transition: transform .35s cubic-bezier(.2,.7,.2,1); }
 .crowd .eyes { transform-box: fill-box; transform-origin: 50% 50%; animation: blink var(--blink, 5s) infinite; }
 .crowd .wave-arm { transform-box: fill-box; transform-origin: 15% 95%; animation: wave 2.6s ease-in-out infinite; }
 .crowd .is-me:hover .wave-arm { animation-duration: .7s; }
-.crowd .me-tag { transform-box: fill-box; transform-origin: 50% 100%; animation: bob 2.6s ease-in-out infinite; }
 .crowd-name { font-family: var(--font-geist), system-ui, sans-serif; }
-@keyframes sway { 0%,100% { transform: rotate(0deg); } 50% { transform: rotate(1.4deg) translateY(-1px); } }
+@keyframes bob { 0%,100% { transform: translateY(0) rotate(0deg); } 30% { transform: translateY(-5px) rotate(-1.6deg); } 60% { transform: translateY(-1px) rotate(1.4deg); } }
 @keyframes hop { 0% { transform: translateY(0); } 40% { transform: translateY(-16px) rotate(-2deg); } 100% { transform: translateY(0); } }
 @keyframes blink { 0%, 94%, 100% { transform: scaleY(1); } 96% { transform: scaleY(.1); } }
 @keyframes wave { 0%, 60%, 100% { transform: rotate(0deg); } 70% { transform: rotate(-14deg); } 80% { transform: rotate(8deg); } 90% { transform: rotate(-10deg); } }
-@keyframes bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
 
 /* ── folders ───────────────────────────────────────── */
 .folder .sheet { transition: transform .55s var(--ease-out); }

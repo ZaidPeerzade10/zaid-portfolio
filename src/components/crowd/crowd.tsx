@@ -1,9 +1,9 @@
 "use client";
 
 import { useEffect, useMemo, useRef } from "react";
-import { ME, Person, makePerson, rng, type PersonSpec } from "./person";
+import { Person, makePerson, rng, type PersonSpec } from "./person";
 
-type Placed = { p: PersonSpec; x: number; bottom: number; scale: number; row: number; delay: number; blink: number };
+type Placed = { p: PersonSpec; x: number; bottom: number; scale: number; row: number; delay: number; blink: number; dur: number };
 
 const W = 1600;
 const H = 430;
@@ -19,20 +19,39 @@ function layout(): Placed[] {
   rows.forEach((r, ri) => {
     const r2 = rng(ri * 101 + 7);
     for (let x = r.offset - 30; x < W + 30; x += r.gap * (0.9 + r2() * 0.2)) {
-      const isMe = ri === 2 && Math.abs(x + 60 * r.scale - W / 2) < r.gap / 2;
-      const p = isMe ? ME : makePerson(seed++);
       out.push({
-        p,
-        x: isMe ? W / 2 - 60 * 1.22 : x,
+        p: makePerson(seed++),
+        x,
         bottom: r.bottom,
-        scale: isMe ? 1.22 : r.scale * (0.95 + r2() * 0.1),
+        scale: r.scale * (0.95 + r2() * 0.1),
         row: ri,
-        delay: r2() * 4,
+        delay: r2() * 3,
         blink: 3 + r2() * 5,
+        dur: 2.2 + r2() * 2,
       });
     }
   });
   return out;
+}
+
+
+function renderPerson(it: Placed, i: number) {
+  const tx = it.x;
+  const ty = it.bottom - 202 * it.scale;
+  const faceCx = tx + 60 * it.scale;
+  const faceCy = ty + 60 * it.scale;
+  return (
+    <g key={`${it.row}-${i}`} transform={`translate(${tx.toFixed(1)} ${ty.toFixed(1)}) scale(${it.scale.toFixed(3)})`}>
+      <g
+        className="person"
+        style={{ animationDelay: `-${it.delay.toFixed(2)}s`, animationDuration: `${it.dur.toFixed(2)}s`, ["--blink" as string]: `${it.blink.toFixed(2)}s` }}
+      >
+        <g data-face data-cx={faceCx.toFixed(1)} data-cy={faceCy.toFixed(1)} className="look">
+          <Person p={it.p} />
+        </g>
+      </g>
+    </g>
+  );
 }
 
 export function Crowd({ name = "ZAID." }: { name?: string }) {
@@ -87,37 +106,26 @@ export function Crowd({ name = "ZAID." }: { name?: string }) {
 
   return (
     <div className="crowd relative overflow-hidden bg-white">
-      <svg ref={svgRef} viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="xMidYMax slice" className="block h-[260px] w-full sm:h-[360px] lg:h-[440px]" role="img" aria-label="An illustrated crowd of people with Zaid waving in the middle">
+      <svg ref={svgRef} viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="xMidYMax slice" className="block h-[260px] w-full sm:h-[360px] lg:h-[440px]" role="img" aria-label="Zaid standing in the middle of an illustrated crowd">
         <text x={W / 2} y={232} textAnchor="middle" className="crowd-name" fontSize={300} fontWeight={800} fill="#EDEDEB" letterSpacing={-12}>
           {name}
         </text>
-        {people.map((it, i) => {
-          const tx = it.x;
-          const ty = it.bottom - 202 * it.scale;
-          const faceCx = tx + 60 * it.scale;
-          const faceCy = ty + 60 * it.scale;
-          return (
-            <g key={i} transform={`translate(${tx.toFixed(1)} ${ty.toFixed(1)}) scale(${it.scale.toFixed(3)})`}>
-              <g
-                className={`person ${it.p.me ? "is-me" : ""}`}
-                style={{ animationDelay: `${it.delay.toFixed(2)}s`, ["--blink" as string]: `${it.blink.toFixed(2)}s` }}
-              >
-                <g data-face data-cx={faceCx.toFixed(1)} data-cy={faceCy.toFixed(1)} className="look">
-                  <Person p={it.p} />
-                </g>
-                {it.p.me && (
-                  <g className="me-tag">
-                    <rect x={16} y={-10} width={88} height={28} rx={14} fill="#000000" />
-                    <text x={60} y={9} textAnchor="middle" fontSize={13} fill="#fff" fontFamily="var(--font-geist), sans-serif" fontWeight={600}>
-                      that&apos;s me
-                    </text>
-                    <path d="M 54 17 L 60 25 L 66 17 Z" fill="#000000" />
-                  </g>
-                )}
-              </g>
-            </g>
-          );
-        })}
+        <defs>
+          <filter id="ink-outline" x="-5%" y="-5%" width="110%" height="110%">
+            <feMorphology in="SourceAlpha" operator="dilate" radius="3" result="grow" />
+            <feFlood floodColor="#000" />
+            <feComposite in2="grow" operator="in" result="outline" />
+            <feMerge>
+              <feMergeNode in="outline" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+        </defs>
+        {people.filter((it) => it.row === 0).map(renderPerson)}
+        <g className="standing">
+          <image href="/zaid-standing.webp" x={W / 2 - 194} y={14} width={388} height={482} preserveAspectRatio="xMidYMin meet" filter="url(#ink-outline)" />
+        </g>
+        {people.filter((it) => it.row > 0 && !(it.row === 1 && Math.abs(it.x + 60 * it.scale - W / 2) < 120)).map(renderPerson)}
       </svg>
     </div>
   );
