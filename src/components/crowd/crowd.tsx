@@ -123,7 +123,7 @@ export function Crowd({ name = "ZAID." }: { name?: string }) {
         </defs>
         {people.filter((it) => it.row === 0).map(renderPerson)}
         <g className="standing">
-          <image href="/zaid-standing.webp" x={W / 2 - 194} y={14} width={388} height={482} preserveAspectRatio="xMidYMin meet" filter="url(#ink-outline)" />
+          <image href="/zaid-standing.webp" x={W / 2 - 194} y={40} width={388} height={482} preserveAspectRatio="xMidYMin meet" filter="url(#ink-outline)" />
         </g>
         {people.filter((it) => it.row > 0 && !(it.row === 1 && Math.abs(it.x + 60 * it.scale - W / 2) < 120)).map(renderPerson)}
       </svg>
