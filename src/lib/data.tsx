@@ -14,10 +14,10 @@ export const about = {
   statement:
     "I build AI systems that take real work off people's plates: agents that read databases, bots that run business processes, and search tools that actually find the answer.",
   body:
-    "I'm a Lead AI Engineer at Maxnet Technologies and a final-year Computer Engineering student at SPPU, Pune. Most of my days are spent wiring LLMs into existing systems with Python and LangChain, then testing them until they hold up in production.",
+    "I'm a Lead AI Engineer at Maxnet Technologies and a Computer Engineering graduate of SPPU, Pune (CGPA 8.02). Most of my days are spent wiring LLMs into existing systems with Python and LangChain, then testing them until they hold up in production.",
   facts: [
     { label: "Now", value: "Lead AI Engineer, Maxnet" },
-    { label: "Studying", value: "B.E. Computer Engineering, SPPU (2026)" },
+    { label: "Education", value: "B.E. Computer Engineering, SPPU · 8.02 CGPA" },
     { label: "Based", value: "Pune, India" },
     { label: "Focus", value: "Agents, RAG, automation" },
   ],
@@ -125,7 +125,7 @@ export const stack = [
 ];
 
 export const education = [
-  { school: "Savitribai Phule Pune University (SPPU)", degree: "B.E. Computer Engineering", years: "2023 — 2026" },
+  { school: "Savitribai Phule Pune University (SPPU)", degree: "B.E. Computer Engineering", years: "2023 — 2026 · Graduated · CGPA 8.02" },
   { school: "MSBTE, Pune", degree: "Diploma in Computer Engineering", years: "2020 — 2023" },
 ];
 

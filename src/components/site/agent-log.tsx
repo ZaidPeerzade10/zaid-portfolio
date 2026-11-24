@@ -11,7 +11,7 @@ const ROWS: Row[] = [
   { sym: "›", key: "role", val: "Lead AI Engineer @ Maxnet" },
   { sym: "›", key: "tool", val: "read(stack)", ok: true },
   { sym: "›", key: "ships", val: "chatbots, RAG, agents" },
-  { sym: "›", key: "study", val: "B.E. Computer, SPPU '26" },
+  { sym: "›", key: "study", val: "B.E. Computer, SPPU · 8.02" },
   { sym: "→", key: "done", val: "exit 0 · 0.42s" },
 ];
 
